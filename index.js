@@ -78,7 +78,7 @@ const start = async() => {
         await mongoose.connect(connection)
 
         app.listen(PORT, () => {
-            console.log(`Example app listening on port ${PORT}`)
+            console.log(`Example appka listening on port ${PORT}`)
         })
     }catch(e){
         console.log(e)
