@@ -22,6 +22,7 @@ app.get('/api/customers', async (req, res) => {
         // res.send({"customers": restult})    
 
         res.send({msg: "cutomeri"})
+        console.log(connection)
     }catch(e){
         res.status(500).json({error: e.message})
     }
