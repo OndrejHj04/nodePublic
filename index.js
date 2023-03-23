@@ -18,8 +18,10 @@ app.get('/', (req, res) => {
 
 app.get('/api/customers', async (req, res) => {
     try {
-        const restult = await Customer.find()
-        res.send({"customers": restult})    
+        // const restult = await Customer.find()
+        // res.send({"customers": restult})    
+
+        res.send({msg: "cutomeri"})
     }catch(e){
         res.status(500).json({error: e.message})
     }
