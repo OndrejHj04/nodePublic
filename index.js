@@ -19,6 +19,7 @@ app.get("/", (req, res) => {
 app.get("/api/companies", async (req, res) => {
   try {
     const restult = await Company.find();
+    console.log(restult)
     res.status(200).send({ data: restult });
   } catch (e) {
     res.status(500).json({ error: e.message });
