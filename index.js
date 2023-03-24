@@ -38,4 +38,4 @@ app.post("/api/add-company", async (req, res) => {
 
 start();
 
-//export default app;
+export default app;
