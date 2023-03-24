@@ -35,6 +35,14 @@ app.post("/api/add-company", async (req, res) => {
   }
 });
 
+const start = async () => {
+    try{
+        await mongoose.connect(connection)
+        app.listen(PORT)
+    }catch(e){
+        console.log(e)
+    }
+}
 
 start();
 
