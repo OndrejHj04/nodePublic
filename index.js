@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 app.get("/api/companies", async (req, res) => {
   try {
     const restult = await Company.find();
-    console.log(restult)
+
     res.status(200).send({ data: restult });
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -36,14 +36,60 @@ app.post("/api/add-company", async (req, res) => {
   }
 });
 
-const start = async () => {
-    try{
-        await mongoose.connect(connection)
-        app.listen(PORT)
-    }catch(e){
-        console.log(e)
+app.delete("/api/delete-company/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const company = await Company.findById(id);
+    const request = await Company.deleteOne({ _id: id });
+    if (request.deletedCount) {
+      res.status(200).json({ data: company });
+    } else {
+      res.status(404).json({ data: "not found" });
     }
-}
+  } catch (e) {
+    res.status(404).json({ error: e.message });
+  }
+});
+
+app.delete("/api/delete-multiple", async (req, res) => {
+  const { ids } = req.body;
+  try {
+    const companies = await Company.find({ _id: ids });
+
+    if (ids.length === companies.length) {
+      const { deletedCount } = await Company.deleteMany({ _id: ids });
+      res.status(200).json({ data: companies });
+    } else {
+      res.status(404).json({ data: "not found" });
+    }
+  } catch (e) {
+    res.status(404).json({ data: e.message });
+  }
+});
+
+
+app.get("/api/company/:id", async (req, res) => {
+  const {id} = req.params
+  try {
+    const company = await Company.findById(id)
+    if(company){
+      res.status(200).json({data: company})
+    }else{
+      res.status(404).json({data: "not found"})
+    }
+    
+  }catch(e){
+    res.status(404).json({data: e.message})
+  }
+})
+const start = async () => {
+  try {
+    await mongoose.connect(connection);
+    app.listen(PORT);
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 start();
 
