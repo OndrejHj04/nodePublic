@@ -69,7 +69,8 @@ app.delete("/api/delete-multiple", async (req, res) => {
 });
 
 app.delete("/api/delete-all", async (req,res) => {
-  await Company.deleteMany({})
+  const data = await Company.deleteMany({})
+  res.status(200)
 })
 
 app.get("/api/company/:id", async (req, res) => {
