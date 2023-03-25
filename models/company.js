@@ -21,6 +21,11 @@ companySchema = new mongoose.Schema({
         type: String,
         required: true,
         default: ''
+    },
+    date: {
+        type: String, 
+        reqired: true,
+        default: ''
     }
 })
 

@@ -27,7 +27,7 @@ app.get("/api/companies", async (req, res) => {
 });
 
 app.post("/api/add-company", async (req, res) => {
-  const company = new Company({...req.body, state: "created"});
+  const company = new Company({...req.body, state: "created", date: new Date()});
 
   try {
     await company.save();
