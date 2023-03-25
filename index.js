@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
-
+const jwt = require("jsonwebtoken");
 const Company = require("./models/company");
 
 dotenv.config();
@@ -67,21 +67,19 @@ app.delete("/api/delete-multiple", async (req, res) => {
   }
 });
 
-
 app.get("/api/company/:id", async (req, res) => {
-  const {id} = req.params
+  const { id } = req.params;
   try {
-    const company = await Company.findById(id)
-    if(company){
-      res.status(200).json({data: company})
-    }else{
-      res.status(404).json({data: "not found"})
+    const company = await Company.findById(id);
+    if (company) {
+      res.status(200).json({ data: company });
+    } else {
+      res.status(404).json({ data: "not found" });
     }
-    
-  }catch(e){
-    res.status(404).json({data: e.message})
+  } catch (e) {
+    res.status(404).json({ data: e.message });
   }
-})
+});
 const start = async () => {
   try {
     await mongoose.connect(connection);
@@ -91,6 +89,36 @@ const start = async () => {
   }
 };
 
+app.get("/posts", authenticate, (req, res)=>{
+  if(req.user.name){
+    res.json({data: "data"})
+  }else{
+    res.status(404).json({data: "wrong credentials"})
+  }
+  
+})
+
+app.post("/login", (req, res) => {
+  const username = req.body.username
+  const user = {name: username}
+  const acessToken = jwt.sign(user, process.env.ACESS_TOKEN_SECRET)
+
+  res.json({acessToken: acessToken})
+});
+
+function authenticate(req, res, next){
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(" ")[1]
+
+  if(token === null) return res.sendStatus(401)
+
+  jwt.verify(token, process.env.ACESS_TOKEN_SECRET, (err, user)=>{
+    if(err) return res.sendStatus(403)
+    req.user = user
+    next()
+  })
+}
+
 start();
 
-export default app;
+export default app
