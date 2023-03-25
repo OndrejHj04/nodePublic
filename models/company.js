@@ -16,6 +16,11 @@ companySchema = new mongoose.Schema({
     gateType: {
         type: String, 
         require: true
+    },
+    state: {
+        type: String,
+        required: true,
+        default: ''
     }
 })
 
