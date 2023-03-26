@@ -97,35 +97,35 @@ const start = async () => {
   }
 };
 
-// app.get("/posts", authenticate, (req, res)=>{
-//   if(req.user.name){
-//     res.json({data: "data"})
-//   }else{
-//     res.status(404).json({data: "wrong credentials"})
-//   }
+app.get("/posts", authenticate, (req, res)=>{
+  if(req.user.name){
+    res.json({data: "data"})
+  }else{
+    res.status(404).json({data: "wrong credentials"})
+  }
   
-// })
+})
 
-// app.post("/login", (req, res) => {
-//   const username = req.body.username
-//   const user = {name: username}
-//   const acessToken = jwt.sign(user, process.env.ACESS_TOKEN_SECRET)
+app.post("/login", (req, res) => {
+  const username = req.body.username
+  const user = {name: username}
+  const acessToken = jwt.sign(user, process.env.ACESS_TOKEN_SECRET)
 
-//   res.json({acessToken: acessToken})
-// });
+  res.json({acessToken: acessToken})
+});
 
-// function authenticate(req, res, next){
-//   const authHeader = req.headers['authorization']
-//   const token = authHeader && authHeader.split(" ")[1]
+function authenticate(req, res, next){
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(" ")[1]
 
-//   if(token === null) return res.sendStatus(401)
+  if(token === null) return res.sendStatus(401)
 
-//   jwt.verify(token, process.env.ACESS_TOKEN_SECRET, (err, user)=>{
-//     if(err) return res.sendStatus(403)
-//     req.user = user
-//     next()
-//   })
-// }
+  jwt.verify(token, process.env.ACESS_TOKEN_SECRET, (err, user)=>{
+    if(err) return res.sendStatus(403)
+    req.user = user
+    next()
+  })
+}
 
 start();
 
