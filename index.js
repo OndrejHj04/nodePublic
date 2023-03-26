@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const Company = require("./models/company");
+const date = require('date-and-time');
 
 dotenv.config();
 mongoose.set("strictQuery", false);
@@ -13,6 +14,8 @@ app.use(cors());
 const PORT = process.env.PORT || 3000;
 const connection = process.env.CONNECTION;
 app.get("/", (req, res) => {
+  const now = new Date();
+  console.log(date.format(now, 'YYYY/MM/DD HH:mm:ss'))
   res.send({ msg: "Welcome" });
 });
 
@@ -89,6 +92,7 @@ app.get("/api/company/:id", authenticate, async (req, res) => {
 
 app.put("/api/change-company/:id", async (req, res) => {
   const { id } = req.params;
+  
   try{
     const company = await Company.findOneAndUpdate({_id: id}, {...req.body, lastChange: new Date()}, {returnOriginal: false})
     res.status(200).json({data: company})
