@@ -4,8 +4,6 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const Company = require("./models/company");
-const date = require('date-and-time');
-
 dotenv.config();
 mongoose.set("strictQuery", false);
 const app = express();
@@ -14,7 +12,7 @@ app.use(cors());
 const PORT = process.env.PORT || 3000;
 const connection = process.env.CONNECTION;
 app.get("/", (req, res) => {
-  res.send({ msg: "Welcome"});
+  res.send({ msg: "Welcome", date: new Date().toString()});
 });
 
 app.get("/api/companies", authenticate, async (req, res) => {
@@ -138,4 +136,3 @@ function authenticate(req, res, next){
 
 start();
 
-export default app
