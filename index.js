@@ -86,6 +86,18 @@ app.get("/api/company/:id", authenticate, async (req, res) => {
     res.status(404).json({ data: e.message });
   }
 });
+
+app.put("/api/change-company/:id", async (req, res) => {
+  const { id } = req.params;
+  try{
+    const company = await Company.findOneAndUpdate({_id: id}, {...req.body}, {returnOriginal: false})
+    res.status(200).json({data: company})
+    
+  }catch(e){
+    res.status(400).json({data: e.message})
+  }
+})
+
 const start = async () => {
   try {
     await mongoose.connect(connection);
