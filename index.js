@@ -98,12 +98,7 @@ const start = async () => {
 };
 
 app.get("/posts", authenticate, (req, res)=>{
-  if(req.user.name){
-    res.json({data: "data"})
-  }else{
-    res.status(404).json({data: "wrong credentials"})
-  }
-  
+  res.json({data: "data"})
 })
 
 app.post("/login", (req, res) => {
@@ -129,4 +124,3 @@ function authenticate(req, res, next){
 
 start();
 
-export default app
