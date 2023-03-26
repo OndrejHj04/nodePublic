@@ -133,7 +133,10 @@ app.post("/login", (req, res) => {
   res.json({ acessToken: acessToken });
 });
 
-app.post("/register", (req, res) => {});
+app.post("/register", (req, res) => {
+
+  res.status(200).json({data: req.body})
+});
 
 function authenticate(req, res, next) {
   const authHeader = req.headers["authorization"];
@@ -149,5 +152,3 @@ function authenticate(req, res, next) {
 }
 
 start();
-
-export default app
