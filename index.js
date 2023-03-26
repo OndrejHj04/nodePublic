@@ -90,7 +90,7 @@ app.get("/api/company/:id", authenticate, async (req, res) => {
 app.put("/api/change-company/:id", async (req, res) => {
   const { id } = req.params;
   try{
-    const company = await Company.findOneAndUpdate({_id: id}, {...req.body}, {returnOriginal: false})
+    const company = await Company.findOneAndUpdate({_id: id}, {...req.body, lastChange: new Date()}, {returnOriginal: false})
     res.status(200).json({data: company})
     
   }catch(e){

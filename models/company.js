@@ -26,6 +26,11 @@ companySchema = new mongoose.Schema({
         type: String, 
         reqired: true,
         default: ''
+    },
+    lastChange: {
+        type: String,
+        require: true,
+        default: ''
     }
 })
 
