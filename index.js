@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
   res.send({ msg: "Welcome" });
 });
 
-app.get("/api/companies", async (req, res) => {
+app.get("/api/companies", authenticate, async (req, res) => {
   try {
     const restult = await Company.find();
 
@@ -26,7 +26,7 @@ app.get("/api/companies", async (req, res) => {
   }
 });
 
-app.post("/api/add-company", async (req, res) => {
+app.post("/api/add-company", authenticate, async (req, res) => {
   const company = new Company({...req.body, state: "created", date: new Date()});
 
   try {
@@ -37,7 +37,7 @@ app.post("/api/add-company", async (req, res) => {
   }
 });
 
-app.delete("/api/delete-company/:id", async (req, res) => {
+app.delete("/api/delete-company/:id", authenticate, async (req, res) => {
   const { id } = req.params;
   try {
     const company = await Company.findById(id);
@@ -52,7 +52,7 @@ app.delete("/api/delete-company/:id", async (req, res) => {
   }
 });
 
-app.delete("/api/delete-multiple", async (req, res) => {
+app.delete("/api/delete-multiple", authenticate, async (req, res) => {
   const { ids } = req.body;
   try {
     const companies = await Company.find({ _id: ids });
@@ -68,12 +68,12 @@ app.delete("/api/delete-multiple", async (req, res) => {
   }
 });
 
-app.delete("/api/delete-all", async (req,res) => {
+app.delete("/api/delete-all", authenticate, async (req,res) => {
   const data = await Company.deleteMany({})
   res.status(200)
 })
 
-app.get("/api/company/:id", async (req, res) => {
+app.get("/api/company/:id", authenticate, async (req, res) => {
   const { id } = req.params;
   try {
     const company = await Company.findById(id);
