@@ -149,3 +149,5 @@ function authenticate(req, res, next) {
 }
 
 start();
+
+export default app
