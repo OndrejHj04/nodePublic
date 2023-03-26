@@ -14,9 +14,7 @@ app.use(cors());
 const PORT = process.env.PORT || 3000;
 const connection = process.env.CONNECTION;
 app.get("/", (req, res) => {
-  const now = new Date();
-
-  res.send({ msg: "Welcome", date: date.format(now, 'YYYY/MM/DD HH:mm:ss')});
+  res.send({ msg: "Welcome"});
 });
 
 app.get("/api/companies", authenticate, async (req, res) => {
