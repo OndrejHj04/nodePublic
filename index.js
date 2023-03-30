@@ -16,7 +16,7 @@ const connection = process.env.CONNECTION;
 app.get("/", (req, res) => {
   res.send({
     msg: "Welcome",
-    date: moment().format("DD. MM. YYYY HH:MM")
+    date: moment().format("DD. MM. YYYY HH:MM"),
   });
 });
 
@@ -34,7 +34,8 @@ app.post("/api/add-company", authenticate, async (req, res) => {
   const company = new Company({
     ...req.body,
     state: "created",
-    date: moment().format("DD. MM. YYYY HH:MM"),
+    date: new Date(),
+    lastChange: "",
   });
 
   try {
@@ -95,13 +96,29 @@ app.get("/api/company/:id", authenticate, async (req, res) => {
   }
 });
 
+app.post("/api/comapany-state/:id", authenticate, async (req, res) => {
+  const { body } = req;
+  const { id } = req.params;
+  console.log(body.state)
+  try {
+    const company = await Company.findOneAndUpdate(
+      { _id: id },
+      { state: body.state===0?"history":"created"},
+      { returnOriginal: false }
+    );
+    res.status(200).json({ data: company });
+  } catch (e) {
+    res.status(400).json({ data: e.message });
+  }
+});
+
 app.put("/api/change-company/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
     const company = await Company.findOneAndUpdate(
       { _id: id },
-      { ...req.body, lastChange: moment().format("DD. MM. YYYY HH:MM")},
+      { ...req.body, lastChange: new Date() },
       { returnOriginal: false }
     );
     res.status(200).json({ data: company });
@@ -134,8 +151,7 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-
-  res.status(200).json({data: req.body})
+  res.status(200).json({ data: req.body });
 });
 
 function authenticate(req, res, next) {
