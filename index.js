@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/api/companies", authenticate, async (req, res) => {
+app.get("/api/companies", async (req, res) => {
   try {
     const restult = await Company.find();
 
@@ -30,7 +30,7 @@ app.get("/api/companies", authenticate, async (req, res) => {
   }
 });
 
-app.post("/api/add-company", authenticate, async (req, res) => {
+app.post("/api/add-company", async (req, res) => {
   const company = new Company({
     ...req.body,
     state: "created",
@@ -46,7 +46,7 @@ app.post("/api/add-company", authenticate, async (req, res) => {
   }
 });
 
-app.delete("/api/delete-company/:id", authenticate, async (req, res) => {
+app.delete("/api/delete-company/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const company = await Company.findById(id);
@@ -61,7 +61,7 @@ app.delete("/api/delete-company/:id", authenticate, async (req, res) => {
   }
 });
 
-app.delete("/api/delete-multiple", authenticate, async (req, res) => {
+app.delete("/api/delete-multiple", async (req, res) => {
   const { ids } = req.body;
   try {
     const companies = await Company.find({ _id: ids });
@@ -77,12 +77,12 @@ app.delete("/api/delete-multiple", authenticate, async (req, res) => {
   }
 });
 
-app.delete("/api/delete-all", authenticate, async (req, res) => {
+app.delete("/api/delete-all", async (req, res) => {
   const data = await Company.deleteMany({});
   res.status(200);
 });
 
-app.get("/api/company/:id", authenticate, async (req, res) => {
+app.get("/api/company/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const company = await Company.findById(id);
@@ -96,7 +96,7 @@ app.get("/api/company/:id", authenticate, async (req, res) => {
   }
 });
 
-app.post("/api/comapany-state/:id", authenticate, async (req, res) => {
+app.post("/api/comapany-state/:id", async (req, res) => {
   const { body } = req;
   const { id } = req.params;
   console.log(body.state)
@@ -138,7 +138,7 @@ const start = async () => {
   }
 };
 
-app.get("/posts", authenticate, (req, res) => {
+app.get("/posts", (req, res) => {
   res.json({ data: "data" });
 });
 
