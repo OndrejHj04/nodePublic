@@ -21,9 +21,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/companies", async (req, res) => {
-  try {
-    const restult = await Company.find();
+  const {state} = req.query
 
+  try {
+    const restult = await Company.find({state});
     res.status(200).send({ data: restult });
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -53,7 +54,7 @@ app.delete("/api/delete-company/:id", async (req, res) => {
     const request = await Company.deleteOne({ _id: id });
     if (request.deletedCount) {
       res.status(200).json({ data: company });
-    } else {
+    } else { 
       res.status(404).json({ data: "not found" });
     }
   } catch (e) {
