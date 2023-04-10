@@ -97,7 +97,7 @@ app.get("/api/company/:id", async (req, res) => {
   }
 });
 
-app.post("/api/comapany-state/:id", async (req, res) => {
+app.post("/api/company-state/:id", async (req, res) => {
   const { body } = req;
   const { id } = req.params;
   console.log(body.state)
