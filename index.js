@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cors());
 const PORT = process.env.PORT || 3000;
 const connection = process.env.CONNECTION;
-
+console.log('xddd')
 app.get("/", (req, res) => {
   res.send({
     msg: "Welcome",
