@@ -5,6 +5,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const Company = require("./models/company");
 const moment = require("moment");
+
 dotenv.config();
 mongoose.set("strictQuery", false);
 const app = express();
