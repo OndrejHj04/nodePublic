@@ -41,7 +41,7 @@ app.post("/api/add-company", async (req, res) => {
   const company = new Company({
     ...req.body,
     state: "created",
-    date: moment(),
+    date: moment().tz("Europe/Prague"),
     lastChange: "",
   });
 
@@ -125,7 +125,7 @@ app.put("/api/change-company/:id", async (req, res) => {
   try {
     const company = await Company.findOneAndUpdate(
       { _id: id },
-      { ...req.body, lastChange: moment() },
+      { ...req.body, lastChange: moment().tz("Europe/Prague") },
       { returnOriginal: false }
     );
     res.status(200).json({ data: company });
