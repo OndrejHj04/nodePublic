@@ -24,8 +24,13 @@ app.get("/api/companies", async (req, res) => {
   const {state} = req.query
 
   try {
-    const restult = await Company.find({state});
-    res.status(200).send({ data: restult });
+    if(state){
+      const restult = await Company.find({state});
+      res.status(200).send({ data: restult });
+    }else{
+      const restult = await Company.find({});
+      res.status(200).send({ data: restult });
+    }
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
@@ -106,7 +111,7 @@ app.post("/api/company-state/:id", async (req, res) => {
       { _id: id },
       { state: body.state===0?"history":"created"},
       { returnOriginal: false }
-    );
+    ); //zanechat časouvou stopu + vyřesit time zone
     res.status(200).json({ data: company });
   } catch (e) {
     res.status(400).json({ data: e.message });
