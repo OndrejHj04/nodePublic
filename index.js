@@ -16,7 +16,7 @@ console.log("xddd");
 app.get("/", (req, res) => {
   res.send({
     msg: "Welcome",
-    date: moment().format("DD. MM. YYYY HH:MM"),
+    date: moment().utcOffset('+0200').format("DD. MM. YYYY HH:MM"),
   });
 });
 
