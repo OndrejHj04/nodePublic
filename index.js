@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cors());
 const PORT = process.env.PORT || 3000;
 const connection = process.env.CONNECTION;
-console.log('xddd')
+console.log("xddd");
 app.get("/", (req, res) => {
   res.send({
     msg: "Welcome",
@@ -21,13 +21,13 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/companies", async (req, res) => {
-  const {state} = req.query
+  const { state } = req.query;
 
   try {
-    if(state){
-      const restult = await Company.find({state});
+    if (state) {
+      const restult = await Company.find({ state });
       res.status(200).send({ data: restult });
-    }else{
+    } else {
       const restult = await Company.find({});
       res.status(200).send({ data: restult });
     }
@@ -40,7 +40,7 @@ app.post("/api/add-company", async (req, res) => {
   const company = new Company({
     ...req.body,
     state: "created",
-    date: new Date(),
+    date: moment(),
     lastChange: "",
   });
 
@@ -59,7 +59,7 @@ app.delete("/api/delete-company/:id", async (req, res) => {
     const request = await Company.deleteOne({ _id: id });
     if (request.deletedCount) {
       res.status(200).json({ data: company });
-    } else { 
+    } else {
       res.status(404).json({ data: "not found" });
     }
   } catch (e) {
@@ -105,11 +105,11 @@ app.get("/api/company/:id", async (req, res) => {
 app.post("/api/company-state/:id", async (req, res) => {
   const { body } = req;
   const { id } = req.params;
-  console.log(body.state)
+  console.log(body.state);
   try {
     const company = await Company.findOneAndUpdate(
       { _id: id },
-      { state: body.state===0?"history":"created"},
+      { state: body.state === 0 ? "history" : "created" },
       { returnOriginal: false }
     ); //zanechat časouvou stopu + vyřesit time zone
     res.status(200).json({ data: company });
@@ -124,7 +124,7 @@ app.put("/api/change-company/:id", async (req, res) => {
   try {
     const company = await Company.findOneAndUpdate(
       { _id: id },
-      { ...req.body, lastChange: new Date() },
+      { ...req.body, lastChange: moment() },
       { returnOriginal: false }
     );
     res.status(200).json({ data: company });
