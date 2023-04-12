@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const Company = require("./models/company");
-const moment = require("moment");
+const moment = require("moment-timezone");
 
 dotenv.config();
 mongoose.set("strictQuery", false);
@@ -17,7 +17,7 @@ console.log("xddd");
 app.get("/", (req, res) => {
   res.send({
     msg: "Welcome",
-    date: moment().utcOffset('+0200').format("DD. MM. YYYY HH:MM"),
+    date: moment().format("MM DD YYYY HH mm"),
   });
 });
 
