@@ -17,7 +17,7 @@ console.log("xddd");
 app.get("/", (req, res) => {
   res.send({
     msg: "Welcome",
-    date: moment().format("MM DD YYYY HH mm ss"),
+    date: moment().tz("Europe/Prague").format("MM DD YYYY HH mm ss"),
   });
 });
 
